@@ -1,0 +1,12 @@
+# This is a comment and is ignored by Git
+# Ignore all .log files
+*.log
+
+# Ignore the .env file
+.env
+
+# Ignore all files in the node_modules directory
+node_modules/
+
+# Ignore all .tmp files in the root directory and its subdirectories
+**/.tmp
