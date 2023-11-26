@@ -1,6 +1,6 @@
 const Category = require("../models/category");
 const mongoose = require("mongoose");
-exports.getall = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
     const categories = await Category.find().exec();
     if (!categories) {

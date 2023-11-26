@@ -2,7 +2,7 @@ const express = require("express");
 const routes = express.Router();
 const controller = require("../controllers/category");
 
-routes.get("/getAll", controller.getall);
+routes.get("/getAll", controller.getAll);
 
 routes.post("/insert", controller.insert);
 
