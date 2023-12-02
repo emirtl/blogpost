@@ -2,6 +2,7 @@ const express = require("express");
 const routes = express.Router();
 const controller = require("../controllers/post");
 const multer = require("multer");
+const isAuthenticatedUser = require("../middlewares/isAuth");
 
 const MIME_TYPE = {
   "image/jpg": "jpg",
@@ -32,7 +33,12 @@ routes.get("/getAll", controller.getAll);
 
 routes.post("/insert", multer({ storage }).single("image"), controller.insert);
 
-routes.put("/update/:id", controller.update);
+routes.put(
+  "/update/:id",
+  isAuthenticatedUser,
+  multer({ storage }).single("image"),
+  controller.update
+);
 
 routes.delete("/delete/:id", controller.delete);
 

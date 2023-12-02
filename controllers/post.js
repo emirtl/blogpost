@@ -47,6 +47,7 @@ exports.insert = async (req, res) => {
   }
 };
 exports.update = async (req, res) => {
+  console.log(req.params.id);
   try {
     if (!req.params.id) {
       return res.status(500).json({ error: "post id missing" });
@@ -70,6 +71,7 @@ exports.update = async (req, res) => {
         .status(500)
         .json({ error: "updating post failed. please try later" });
     }
+
     return res.status(200).json({ updatedPost });
   } catch (e) {
     return res
