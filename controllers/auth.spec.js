@@ -7,6 +7,10 @@ jest.mock("../models/user.js");
 jest.mock("bcryptjs");
 jest.mock("jsonwebtoken");
 
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
 describe("Auth Controller", () => {
   describe("register()", () => {
     it("should return error if required fields are missing", async () => {
@@ -57,11 +61,10 @@ describe("Auth Controller", () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
+
       User.findOne.mockReturnValueOnce(null);
 
-      jest
-        .spyOn(bcrypt, "hash")
-        .mockReturnValueOnce("hashedSimplePassword", 10);
+      bcrypt.hash.mockReturnValueOnce("hashedSimplePassword", 10);
 
       User.create.mockReturnValueOnce({
         username: "tlemir55",
@@ -189,7 +192,7 @@ describe("Auth Controller", () => {
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({
         error: "user creation failed",
-        e: new Error('Unexpected error'),
+        e: new Error("Unexpected error"),
       });
     });
   });

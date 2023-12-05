@@ -17,12 +17,11 @@ exports.register = async (req, res) => {
 
     const hashedPass = await bcrypt.hash(req.body.password, 10);
 
-    if(!hashedPass){
+    if (!hashedPass) {
       return res
-      .status(500)
-      .json({ error: "something went wrong. please try later" });
+        .status(500)
+        .json({ error: "something went wrong. please try later" });
     }
-
 
     const user = await User.create({
       username: req.body.username,
@@ -34,7 +33,6 @@ exports.register = async (req, res) => {
       return res.status(500).json({ error: "user creation failed" });
     }
 
- 
     return res.status(201).json({ user });
   } catch (e) {
     console.log(e);
@@ -74,7 +72,6 @@ exports.login = async (req, res) => {
     };
     const token = jwt.sign(payload, process.env.SECRET, { algorithm: "HS256" });
 
-    console.log('token',token);
 
     if (!token) {
       return res

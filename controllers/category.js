@@ -2,7 +2,8 @@ const Category = require("../models/category");
 const mongoose = require("mongoose");
 exports.getAll = async (req, res) => {
   try {
-    const categories = await Category.find().exec();
+    const categories = await Category.find();
+
     if (!categories) {
       return res.status(500).json({ error: "fetching categories failed" });
     }
@@ -43,7 +44,8 @@ exports.update = async (req, res) => {
         title: req.body.title,
       },
       { new: true }
-    ).exec();
+    );
+
     if (!updatedCategory) {
       return res
         .status(500)
@@ -56,6 +58,7 @@ exports.update = async (req, res) => {
       .json({ error: "updating category failed. please try later", e });
   }
 };
+
 exports.delete = async (req, res) => {
   try {
     if (!req.params.id) {
@@ -64,9 +67,7 @@ exports.delete = async (req, res) => {
     if (!mongoose.isValidObjectId(req.params.id)) {
       return res.status(500).json({ error: "category id not valid" });
     }
-    const deletedCategory = await Category.findByIdAndDelete(
-      req.params.id
-    ).exec();
+    const deletedCategory = await Category.findByIdAndDelete(req.params.id);
     if (!deletedCategory) {
       return res
         .status(500)
