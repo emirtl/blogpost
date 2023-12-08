@@ -24,8 +24,6 @@ const isAuthenticatedUser = async (req, res, next) => {
         .json({ error: "you are noth authorized to make this request" });
     }
     req.user = await User.findById(verifiedToken.id);
-    console.log(req.user);
-
     return next();
   } catch (e) {
     return res

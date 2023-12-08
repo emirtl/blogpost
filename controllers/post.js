@@ -2,7 +2,7 @@ const Post = require("../models/post");
 const mongoose = require("mongoose");
 exports.getAll = async (req, res) => {
   try {
-    const posts = await Post.find().exec();
+    const posts = await Post.find();
     if (!posts) {
       return res.status(500).json({ error: "fetching posts failed" });
     }
@@ -13,6 +13,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.insert = async (req, res) => {
+  console.log('insert controller hitted');
   try {
     if (
       !req.body.title ||
@@ -23,7 +24,7 @@ exports.insert = async (req, res) => {
       return res.status(500).json({ error: "post body is needed" });
     }
     if (!req.file) {
-      return res.status(500).json({ error: "post image is needed" });
+      return res.status(500).json({ error: "image is needed" });
     }
 
     const imagePath = `${req.protocol}://${req.get("host")}/public/uploads/${

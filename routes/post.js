@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
 
 routes.get("/getAll", controller.getAll);
 
-routes.post("/insert", multer({ storage }).single("image"), controller.insert);
+routes.post("/insert", multer({ storage }).single("image"),isAuthenticatedUser, controller.insert);
 
 routes.put(
   "/update/:id",

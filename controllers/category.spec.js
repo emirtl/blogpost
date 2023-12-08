@@ -1,4 +1,3 @@
-const category = require("../models/category");
 const Category = require("../models/category");
 const { getAll, insert, update, delete: remove } = require("./category");
 
