@@ -3,11 +3,18 @@ const routes = express.Router();
 const controller = require("../controllers/post");
 const multer = require("multer");
 const isAuthenticatedUser = require("../middlewares/isAuth");
+const isAuth = require("../middlewares/isAuth");
+const isAdmin = require("../middlewares/isAdmin");
 
 const MIME_TYPE = {
   "image/jpg": "jpg",
   "image/png": "png",
   "image/jpeg": "jpg",
+  "image/gif": "gif",
+  "video/mp4": "mp4",
+  "video/quicktime": "mov",
+  "video/webm": "webm",
+  "video/x-flv": "flv",
 };
 
 const storage = multer.diskStorage({
@@ -31,15 +38,26 @@ const storage = multer.diskStorage({
 
 routes.get("/getAll", controller.getAll);
 
-routes.post("/insert", multer({ storage }).single("image"),isAuthenticatedUser, controller.insert);
+routes.get("/getOne/:id", controller.getOne);
+
+routes.post(
+  "/insert",
+  isAuth,
+  isAdmin,
+  multer({ storage }).single("image"),
+  // isAuthenticatedUser,
+  controller.insert
+);
 
 routes.put(
   "/update/:id",
-  isAuthenticatedUser,
+  isAuth,
+  isAdmin,
+  // isAuthenticatedUser,
   multer({ storage }).single("image"),
   controller.update
 );
 
-routes.delete("/delete/:id", controller.delete);
+routes.delete("/delete/:id", isAuth, isAdmin, controller.delete);
 
 module.exports = routes;

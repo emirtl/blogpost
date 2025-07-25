@@ -5,7 +5,9 @@ const postSchema = new mongoose.Schema(
     description: { type: String, required: true },
     richDescription: { type: String, required: true },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" },
     image: { type: String, required: true },
+    isFeatured: { type: Boolean, required: true, default: false },
     // images: [{ type: String }],
   },
   { timestamps: true }

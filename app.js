@@ -12,9 +12,11 @@ app.use(cors());
 const categoryRoutes = require("./routes/category");
 const postRoutes = require("./routes/post");
 const authRoutes = require("./routes/auth");
+const authorRoutes = require("./routes/author");
 
 app.use(`${process.env.API}/categories`, categoryRoutes);
 app.use(`${process.env.API}/posts`, postRoutes);
 app.use(`${process.env.API}/auth`, authRoutes);
+app.use(`${process.env.API}/authors`, authorRoutes);
 
 module.exports = app;

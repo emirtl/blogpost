@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-const isAuthenticatedUser = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   try {
     if (!req?.headers?.authorization?.startsWith("Bearer")) {
       return res
@@ -16,14 +16,18 @@ const isAuthenticatedUser = async (req, res, next) => {
         .json({ error: "you are noth authorized to make this request" });
     }
 
-    const verifiedToken = jwt.verify(authToken, process.env.SECRET);
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_SECRET);
+    console.log("verifiedToken", verifiedToken);
 
     if (!verifiedToken) {
       return res
         .status(401)
         .json({ error: "you are noth authorized to make this request" });
     }
-    req.user = await User.findById(verifiedToken.id);
+    const user = await User.findById(verifiedToken.id);
+    console.log("user", user);
+
+    req.user = user;
     return next();
   } catch (e) {
     return res
@@ -31,5 +35,3 @@ const isAuthenticatedUser = async (req, res, next) => {
       .json({ error: "you are noth authorized to make this request", e });
   }
 };
-
-module.exports = isAuthenticatedUser;
