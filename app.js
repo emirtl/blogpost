@@ -14,6 +14,12 @@ const postRoutes = require("./routes/post");
 const authRoutes = require("./routes/auth");
 const authorRoutes = require("./routes/author");
 
+app.use((req, res, next) => {
+  // Handle the error
+  console.log("Hello App");
+  return next();
+});
+
 app.use(`${process.env.API}/categories`, categoryRoutes);
 app.use(`${process.env.API}/posts`, postRoutes);
 app.use(`${process.env.API}/auth`, authRoutes);
