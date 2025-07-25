@@ -19,4 +19,9 @@ app.use(`${process.env.API}/posts`, postRoutes);
 app.use(`${process.env.API}/auth`, authRoutes);
 app.use(`${process.env.API}/authors`, authorRoutes);
 
+app.use((err, req, res, next) => {
+  // Handle the error
+  res.status(err.status || 500).json({ error: err.message });
+});
+
 module.exports = app;
