@@ -4,7 +4,10 @@ const path = require("path");
 require("dotenv").config();
 const app = express();
 //middlewares
-app.use("/public/uploads", express.static(path.join("public/uploads")));
+app.use(
+  "/public/uploads",
+  express.static(path.join(__dirname, "public", "uploads"))
+);
 app.use(express.json());
 app.use(cors());
 
