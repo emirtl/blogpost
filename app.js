@@ -9,7 +9,17 @@ app.use(
   express.static(path.join(__dirname, "public", "uploads"))
 );
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://whiterabbit-blog.netlify.app/",
+      "http://localhost:4200",
+      "https://whiterabbit-07e575316da2.herokuapp.com",
+    ], // Add all allowed origins
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 //routes
 const categoryRoutes = require("./routes/category");
