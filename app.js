@@ -2,6 +2,22 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
+
+const { S3Client } = require("@aws-sdk/client-s3");
+
+// Configure AWS S3 credentials and region globally
+// These environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION)
+// must be set on Heroku and in your local .env file.
+const s3 = new S3Client({
+  region: process.env.AWS_REGION, // e.g., 'us-east-1', 'eu-central-1'
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
+
+// Initialize S3 client. This instance will be used by multer-s3.
+
 const app = express();
 //middlewares
 app.use(
@@ -23,7 +39,7 @@ app.use(
 
 //routes
 const categoryRoutes = require("./routes/category");
-const postRoutes = require("./routes/post");
+const postRoutes = require("./routes/post")(s3);
 const authRoutes = require("./routes/auth");
 const authorRoutes = require("./routes/author");
 
@@ -43,4 +59,7 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message });
 });
 
-module.exports = app;
+module.exports = {
+  app,
+  s3,
+};

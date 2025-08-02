@@ -17,7 +17,6 @@ module.exports = async (req, res, next) => {
     }
 
     const verifiedToken = jwt.verify(authToken, process.env.JWT_SECRET);
-    console.log("verifiedToken", verifiedToken);
 
     if (!verifiedToken) {
       return res
@@ -25,7 +24,6 @@ module.exports = async (req, res, next) => {
         .json({ error: "you are noth authorized to make this request" });
     }
     const user = await User.findById(verifiedToken.id);
-    console.log("user", user);
 
     req.user = user;
     return next();
