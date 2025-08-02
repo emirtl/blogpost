@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
+const mongoose = require("mongoose");
+const app = express();
 
 const { S3Client } = require("@aws-sdk/client-s3");
 
@@ -18,13 +20,7 @@ const s3 = new S3Client({
 
 // Initialize S3 client. This instance will be used by multer-s3.
 
-const app = express();
 //middlewares
-app.use(
-  "/public/uploads",
-  express.static(path.join(__dirname, "public", "uploads"))
-);
-app.use(express.json());
 app.use(
   cors({
     origin: ["https://whiterabbit-blog.netlify.app", "http://localhost:4200"],
@@ -32,6 +28,11 @@ app.use(
     credentials: true,
   })
 );
+app.use(
+  "/public/uploads",
+  express.static(path.join(__dirname, "public", "uploads"))
+);
+app.use(express.json());
 
 //routes
 const categoryRoutes = require("./routes/category");
@@ -55,7 +56,21 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message });
 });
 
-module.exports = {
-  app,
-  s3,
-};
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGOOSE_USER}:${process.env.MONGOOSE_PASSWORD}@master.xebze3l.mongodb.net/${process.env.MONGOOSE_DATABSE_NAME}`
+  )
+  .then(() => {
+    console.log("connected to db ");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+const PORT = process.env.PORT || 9000;
+
+app.listen(PORT, () => {
+  console.log(`connected to port ${PORT}`);
+});
+
+module.exports = s3;
