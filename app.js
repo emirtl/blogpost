@@ -21,6 +21,8 @@ const s3 = new S3Client({
 // Initialize S3 client. This instance will be used by multer-s3.
 
 //middlewares
+
+// cors
 app.use(
   cors({
     origin: ["https://whiterabbit-blog.netlify.app", "http://localhost:4200"],
