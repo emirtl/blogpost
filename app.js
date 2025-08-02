@@ -27,11 +27,7 @@ app.use(
 app.use(express.json());
 app.use(
   cors({
-    origin: [
-      "https://whiterabbit-blog.netlify.app",
-      "http://localhost:4200",
-      ,
-    ], // Add all allowed origins
+    origin: ["https://whiterabbit-blog.netlify.app", "http://localhost:4200"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
